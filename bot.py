@@ -46,9 +46,11 @@ multiple AI agents working collaboratively:
    - No embedding/vector similarity required: Uses structured summaries and AI reasoning
 
 USAGE:
-    python bot.py --question "How do I pass arrays to functions in C?"
+    python bot.py -c my_llm_config.json --question "How do I pass arrays to functions in C?"
     python bot.py --max-iterations 10 --question "Explain object-oriented programming concepts"
     python bot.py  # Interactive mode (not yet implemented)
+
+    Refer to LLM.init_from_config_file for config file format.
 
 This system represents a sophisticated approach to educational AI, combining multi-agent
 systems, agentic RAG, and iterative reasoning to provide accurate, course-aligned answers.
@@ -108,7 +110,7 @@ class LLM:
 
     @staticmethod
     def init_from_config_file(config_file_path: Path):
-        """Initialize LLM from a JSON config file with keys: api_key, base_url, basic_model, reasoner_model"""
+        """Initialize LLM from a JSON config file with keys: api_key, base_url, basic_model, reasoner_model (optional)"""
         with open(config_file_path, 'r') as f:
             config = json.load(f)
         os.environ["all_proxy"] = os.environ["ALL_PROXY"] = ""
