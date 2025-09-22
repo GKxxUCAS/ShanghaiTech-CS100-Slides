@@ -88,13 +88,16 @@ class LLM:
 
     def __init__(self, always_reason: bool = False):
         self.always_reason = always_reason
+        if not self.reasoner_model:
+            print("Warning: reasoner_model not set. Will fall back to basic_model for reasoning.", file=sys.stderr)
 
     def invoke(self, messages: List[Dict[str, str]], **more_args) -> str:
         if "model" not in more_args:
             more_args["model"] = LLM.reasoner_model if self.always_reason else LLM.basic_model
+        if not more_args["model"]:
+            more_args["model"] = LLM.basic_model
         more_args["messages"] = messages
         more_args["stream"] = False
-
         return LLM.client.chat.completions.create(**more_args).choices[0].message.content
 
     @staticmethod
